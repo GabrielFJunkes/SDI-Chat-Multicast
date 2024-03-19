@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ServerListener {
+public class Server {
     // Listen TCP
     // - Abrir thread pra cada client
     // - Verificar token
