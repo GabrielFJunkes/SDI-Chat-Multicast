@@ -5,48 +5,61 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 
-public class ClientThread {
+public class ClientThread extends Thread{
     private DataInputStream is = null;
     private PrintStream os = null;
     private Socket clientSocket = null;
-    private Multicast multicast = Multicast.getInstance();
+    private Multicast multicast;
 
-    public ClientThread(Socket clientSocket) {
+    public ClientThread(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
+        this.multicast = Multicast.getInstance();
     }
 
+  @SuppressWarnings("deprecation")
   public void run() {
     try {
-      /*
-       * Create input and output streams for this client.
-       */
-      is = new DataInputStream(clientSocket.getInputStream());
-      os = new PrintStream(clientSocket.getOutputStream());
-      os.println("Enter your name.");
-      String name = is.readLine().trim();
-      os.println("Hello " + name
+      this.is = new DataInputStream(clientSocket.getInputStream());
+      this.os = new PrintStream(clientSocket.getOutputStream());
+
+      this.os.println("Token:");
+      String token = this.is.readLine();
+
+      if (!token.equals("senha")){
+        this.os.println("Senha errada.");
+        close();
+      }
+
+      this.os.println(multicast.getIp());
+
+      this.os.println("Enter your name.");
+      String name = this.is.readLine().trim();
+
+      this.os.println("Hello " + name
           + " to our chat room.\nTo leave enter /quit in a new line");
 
-      // Send Entered chat
       multicast.sendMessage("Usuário "+name+" entrou!");
+
       while (true) {
         String line = is.readLine();
+
         if (line.startsWith("/quit")) {
           break;
         }
-        // Send line
+        
         multicast.sendMessage("<"+name+"> - "+line);
       }
-      // Send Leaving chat
+      
       multicast.sendMessage("Usuário "+name+" saiu!");
 
-      /*
-       * Close the output stream, close the input stream, close the socket.
-       */
-      is.close();
-      os.close();
-      clientSocket.close();
+      close();
     } catch (IOException e) {
     }
+  }
+
+  private void close() throws IOException{
+    this.is.close();
+    this.os.close();
+    this.clientSocket.close();
   }
 }

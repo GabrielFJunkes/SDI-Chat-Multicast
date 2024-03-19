@@ -15,10 +15,7 @@ public class Server {
     // Multicast
     // Espera pedido de envio e envia
 
-
-    // The server socket.
     private static ServerSocket serverSocket = null;
-    // The client socket.
     private static Socket clientSocket = null;
     public static void main(String[] args) {
 
@@ -28,24 +25,16 @@ public class Server {
         }
         System.out.println("Listening on port: "+portNumber);
 
-        /*
-        * Open a server socket on the portNumber (default 2222). Note that we can
-        * not choose a port less than 1023 if we are not privileged users (root).
-        */
         try {
             serverSocket = new ServerSocket(portNumber);
         } catch (IOException e) {
             System.out.println(e);
         }
-
-        /*
-        * Create a client socket for each connection and pass it to a new client
-        * thread.
-        */
+        
         while (true) {
             try {
                 clientSocket = serverSocket.accept();
-                new ClientThread(clientSocket).run();
+                new ClientThread(clientSocket).start();
             } catch (IOException e) {
                 System.out.println(e);
             }
