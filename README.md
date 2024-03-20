@@ -1,6 +1,7 @@
 ## Sistema de chat utilizando multicast para disciplina de SDI
 
   Integrantes: Gabriel Junkes, Leonardo Sell, Lucas Tascheck
+  Github repo: https://github.com/GabrielFJunkes/SDI-Chat-Multicast 
 ## Como rodar
 Assumindo ambiente Linux.
 
