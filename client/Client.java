@@ -17,7 +17,6 @@ public class Client {
             serverIP = args[0];
             portNumber = Integer.valueOf(args[1]).intValue();
 
-            System.out.println(serverIP);
             try {
                 clientSocket = new Socket(serverIP, portNumber);
     

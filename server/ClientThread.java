@@ -22,7 +22,7 @@ public class ClientThread extends Thread{
       this.is = new DataInputStream(clientSocket.getInputStream());
       this.os = new PrintStream(clientSocket.getOutputStream());
 
-      this.os.println("Token:");
+      this.os.println("Digite a senha:");
       String token = this.is.readLine();
 
       if (!token.equals("senha")){
@@ -32,11 +32,8 @@ public class ClientThread extends Thread{
 
       this.os.println(multicast.getIp());
 
-      this.os.println("Enter your name.");
+      this.os.println("Digite seu nome.");
       String name = this.is.readLine().trim();
-
-      this.os.println("Hello " + name
-          + " to our chat room.\nTo leave enter /quit in a new line");
 
       multicast.sendMessage("Usuário "+name+" entrou!");
 
