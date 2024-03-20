@@ -14,14 +14,17 @@ public class Multicast {
     // Multicast
     // Escuta por msg e escreve no console
 
+    private static Client client;
+
     public static void main(String[] args) {
     MulticastSocket socket = null;
     DatagramPacket inPacket = null;
     byte[] inBuf = new byte[256];//revisar se não precisa colocar o tamho na origem tambem
     try {
       //Prepare to join multicast group
-      socket = new MulticastSocket(8888);    
-      InetAddress address = InetAddress.getByName("224.0.0.2");
+      socket = new MulticastSocket(8888);
+      InetAddress address = InetAddress.getByName(client.getMulticastIp());
+      //InetAddress address = InetAddress.getByName("224.0.0.2");
         //isso não vai funcionar pq os ultimos 8 bytes são aleatorios, revisar depois como testar
 
       socket.joinGroup(address);
