@@ -20,4 +20,4 @@ default: classes
 classes: $(CLASSES:.java=.class)
 
 clean:
-	rm -f *.class 
+	rm -f ./*/*.class 
