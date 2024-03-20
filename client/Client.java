@@ -2,21 +2,24 @@ package client;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class Client {
-    
 
-    public static void main(String[] args) {
-        int portNumber = 2222;
-        String serverIP = "";
+    private static int portNumber = 2222;
+    private static String serverIP;
+    private static Socket clientSocket;
+    
+    public static void main(String[] args) throws IOException {
         if (args.length >= 2) {
             serverIP = args[0];
             portNumber = Integer.valueOf(args[1]).intValue();
 
+            System.out.println(serverIP);
             try {
-                Socket clientSocket = new Socket(serverIP, portNumber);
+                clientSocket = new Socket(serverIP, portNumber);
     
                 String message;
                 String response = "";
@@ -26,51 +29,52 @@ public class Client {
                 BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
 
-                //aguarda por resposta
-                while(response == ""){
-                    response = inFromServer.readLine();
-                }
+                // Token:
+                response = inFromServer.readLine();
                 System.out.println(response);
 
-                //Manda senha
+                // Senha
+                message = inFromUser.readLine();
+                outToServer.writeBytes(message + '\n');
+                
+                // Recebe confirmação
+                multicastIP = inFromServer.readLine();
+                if (multicastIP.equals("Senha errada.")) {
+                    System.out.println(multicastIP);
+                    clientSocket.close();
+                    throw new Exception(multicastIP);
+                }
+                
+                Multicast multicast = new Multicast(multicastIP);
+                multicast.start();
+
+                // Recebe pedido de nome
+                response = inFromServer.readLine();
+                System.out.println(response);
+
+                // Envia nome
                 message = inFromUser.readLine();
                 outToServer.writeBytes(message + '\n');
 
-                //Recebe confirmação
-                multicastIP = inFromServer.readLine();
-                if(multicastIP == "Senha errada."){
-                    System.out.println("Senha incorreta");
-                    clientSocket.close();
+                while(true){
+                    message = inFromUser.readLine();
+                    outToServer.writeBytes(message + '\n');
+                    if(message.equals("/quit")){
+                        break;
+                    }
                 }
-
-                //Nao sei se essa parte a seguir deve ser implementada desse modo:
-                
-                // Multicast multicast = new Multicast(multicastIP);
-                // multicast.startConnection();
-
-                // while(true){
-                //     multicast.getMessage();
-                //     message = inFromUser.readLine();
-                //     outToServer.writeBytes(message + '\n');
-                //     if(message == "/quit"){
-                //         break;
-                //     }
-                // }
                 clientSocket.close();
+                multicast.close();
                 
             } catch (Exception e) {
+                clientSocket.close();
                 System.out.println(e);
             }
 
 
         }else{
-            System.out.println("porta ou ip nao informados!");
+            System.out.println("Porta e/ou ip nao informados!");
         }
-    }
-
-    public String getMulticastIp() {
-        return null;
-        //mudar isso depois, para retornar o endereço de multicast que o server enviar
     }
 
 }

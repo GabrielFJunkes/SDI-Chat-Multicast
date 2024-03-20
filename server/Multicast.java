@@ -19,6 +19,7 @@ public class Multicast {
         Random r = new Random();
         this.multicastIp = "224.0.0." + (r.nextInt(250) + 1);
         this.address = InetAddress.getByName(this.multicastIp);
+        this.socket = new DatagramSocket();
     }
 
     public static Multicast getInstance() throws IOException {
@@ -33,10 +34,10 @@ public class Multicast {
     }
 
     public void sendMessage(String msg) throws IOException  {
-        outBuf = msg.getBytes();
+        this.outBuf = msg.getBytes();
 
-        outPacket = new DatagramPacket(outBuf, outBuf.length, this.address, PORT);
+        this.outPacket = new DatagramPacket(this.outBuf, this.outBuf.length, this.address, PORT);
  
-        socket.send(outPacket);
+        this.socket.send(this.outPacket);
     }
 }
