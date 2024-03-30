@@ -7,8 +7,8 @@ import java.rmi.registry.*;
 public class Client {
  public static void main(String[] args) {
       if(args.length >= 2){
-        String serverMatrix = args[0];
-        String serverDatabase = args[1];
+        String serverMatrixIP = args[0];
+        String serverDatabaseIP = args[1];
         try {
             int linhas = 3;
             int colunas = 3;
@@ -23,8 +23,8 @@ public class Client {
 
 
             // Obtém uma referência para o registro do RMI
-            Registry serverMatrixRegistry = LocateRegistry.getRegistry(serverMatrix,6600);
-            Registry serverDatabaseRegistry = LocateRegistry.getRegistry(serverDatabase, 6601);
+            Registry serverMatrixRegistry = LocateRegistry.getRegistry(serverMatrixIP,6600);
+            Registry serverDatabaseRegistry = LocateRegistry.getRegistry(serverDatabaseIP, 6601);
 
             // Obtém a stub do servidor
             IMatrix serverMatrixStub= (IMatrix) serverMatrixRegistry.lookup("Matrix");
