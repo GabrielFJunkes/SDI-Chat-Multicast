@@ -4,6 +4,7 @@
  * - Operações com a base de dados (implementando IDatabase)
   */
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -62,7 +63,10 @@ public class ServerDatabase implements IDatabase {
 
     @Override
     public void remove(String filename) throws RemoteException {
-        String file = "db/" + filename;
-
+        String filepath = "db/" + filename;
+        File file = new File(filepath);
+        if (!file.delete()) {
+            throw new RemoteException("Could not delete " + filename);
+        }
     }
 }
