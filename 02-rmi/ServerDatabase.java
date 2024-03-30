@@ -16,7 +16,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 public class ServerDatabase implements IDatabase {
-    private ServerDatabase() {
+    public ServerDatabase() {
     }
 
     public static void main(String[] args) {
