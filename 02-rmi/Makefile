@@ -9,11 +9,11 @@ JFLAGS = -g
 	$(JAVAC) $(JFLAGS) $*.java
 
 CLASSES = \
-	server/Client.java\
-	server/IDatabase.java\
-	server/IMatrix.java\
-	client/ServerDatabase.java\
-	client/ServerMatrix.java\
+	Client.java\
+	IDatabase.java\
+	IMatrix.java\
+	ServerDatabase.java\
+	ServerMatrix.java\
 
 default: classes
 
