@@ -26,7 +26,7 @@ public class ServerDatabase implements IDatabase {
 
             Registry registry = LocateRegistry.createRegistry(6600);
 
-            registry.bind("database", stub);
+            registry.bind("Database", stub);
 
             System.out.println("Servidor pronto");
         } catch (Exception ex) {
