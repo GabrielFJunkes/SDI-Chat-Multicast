@@ -33,6 +33,8 @@ public class Client {
             // Chama o método do servidor para inicializar as matrizes
             matrizA = serverMatrixStub.randfill(linhas, colunas);
             matrizB = serverMatrixStub.randfill(linhas, colunas);
+            System.out.println("Matriz A inicial: ", matrizA);
+            System.out.println("Matriz B inicial: ", matrizB);
 
             // Chama o método do servidor para somar as matrizes e salva
             serverDatabaseStub.save(serverMatrixStub.sum(matrizA, matrizB), diretorioSumBackup);
@@ -43,9 +45,11 @@ public class Client {
             //recupera as matrizes e remove o arquivo de backup
             sum = serverDatabaseStub.load(diretorioSumBackup);
             serverDatabaseStub.remove(diretorioSumBackup);
+            System.out.println("Resultado da soma das matrizes: ", sum);
 
             mult = serverDatabaseStub.load(diretorioMultBackup);
             serverDatabaseStub.remove(diretorioMultBackup);
+            System.out.println("Resultado da multiplicacao das matrizes: ", mult);
 
 
         } catch (Exception ex) {
