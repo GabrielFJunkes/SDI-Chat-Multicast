@@ -22,8 +22,8 @@ public class Client {
         double[][] mult = new double[linhas][colunas];
 
         // Obtém uma referência para o registro do RMI
-        Registry serverMatrixRegistry = LocateRegistry.getRegistry(serverMatrixIP, 6600);
-        Registry serverDatabaseRegistry = LocateRegistry.getRegistry(serverDatabaseIP, 6601);
+        Registry serverMatrixRegistry = LocateRegistry.getRegistry(serverMatrixIP, 6601);
+        Registry serverDatabaseRegistry = LocateRegistry.getRegistry(serverDatabaseIP, 6600);
 
         // Obtém a stub do servidor
         IMatrix serverMatrixStub = (IMatrix) serverMatrixRegistry.lookup("Matrix");

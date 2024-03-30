@@ -2,6 +2,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.io.File;
 import java.lang.Math;
 
 public class ServerMatrix  implements IMatrix{
@@ -14,11 +15,14 @@ public class ServerMatrix  implements IMatrix{
          // Instancia o objeto servidor e a sua stub
          ServerMatrix server = new ServerMatrix();
          IMatrix stub = (IMatrix) UnicastRemoteObject.exportObject(server, 0);
-         // Registra a stub no RMI Registry para que ela seja obtAida pelos clientes
-         Registry registry = LocateRegistry.createRegistry(6600);
-         //Registry registry = LocateRegistry.getRegistry(9999);
-         registry.bind("CalcularMatriz", stub);
+         Registry registry = LocateRegistry.createRegistry(6601);
+         registry.bind("Matrix", stub);
+         File theDir = new File("db");
+         if (!theDir.exists()){
+            theDir.mkdirs();
+         }
          System.out.println("Servidor pronto");
+
       } catch (Exception ex) {
          ex.printStackTrace();
       }
