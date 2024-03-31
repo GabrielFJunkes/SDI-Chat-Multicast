@@ -7,10 +7,8 @@ Assumindo ambiente Linux.
 
 Digite `make` para compilar o projeto
 
-`java server.Server {PORTA}` para rodar o servidor, sendo a porta default 2222.
+`java ServerDatabase` para rodar o banco de dados.
 
-`java client.Client {IP} {PORTA}` para rodar o cliente.
+`java ServerMatrix` para rodar o banco de dados.
 
-### Obs
-- A senha padrão do servidor é `senha`.
-- O ip de multicast é aleatório, gerado na iniciação do server.
+`java Client {IP_DATABASE} {IP_MATRIX}` para rodar o cliente.
