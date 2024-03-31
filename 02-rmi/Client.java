@@ -12,8 +12,8 @@ public class Client {
       try {
         int linhas = 3;
         int colunas = 3;
-        String diretorioSumBackup = "sumBackup.txt";
-        String diretorioMultBackup = "multBackup.txt";
+        String diretorioSumBackup = "sumBackup";
+        String diretorioMultBackup = "multBackup";
 
         double[][] matrizA = new double[linhas][colunas];
         double[][] matrizB = new double[linhas][colunas];

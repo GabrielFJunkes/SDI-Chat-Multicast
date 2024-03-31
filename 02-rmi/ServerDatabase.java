@@ -44,10 +44,12 @@ public class ServerDatabase implements IDatabase {
             System.err.println(x);
             throw new RemoteException();
         }
+        System.out.println("Executando save: "+filename);
     }
 
     @Override
     public double[][] load(String filename) throws RemoteException {
+        System.out.println("Executando load: " + filename);
         String file = "db/" + filename;
         try (ObjectInputStream inFile = new ObjectInputStream(new FileInputStream(file))) {
             double[][] data = (double[][]) inFile.readObject();
@@ -68,5 +70,6 @@ public class ServerDatabase implements IDatabase {
         if (!file.delete()) {
             throw new RemoteException("Could not delete " + filename);
         }
+        System.out.println("Executando remove: " + filename);
     }
 }
