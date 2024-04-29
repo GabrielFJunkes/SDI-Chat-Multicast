@@ -1,5 +1,6 @@
 package client;
 import utils.Message
+import java.util.Random;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -23,8 +24,7 @@ public class Client {
 
             Message newMessage = new Message();
 
-            //Implementar getter de prioridades?
-            if(newMessage.getPriotity() == 0){
+            if(rand.nextInt(2) == 0){
                 channel.basicPublish("", LOW_PRIOR_QUEUE, null, newMessage);
             }
             else {
