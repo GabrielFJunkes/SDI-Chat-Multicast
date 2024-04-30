@@ -1,16 +1,17 @@
 package client;
-import utils.Message
+import utils.Message;
 import java.util.Random;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 public class Client {
-    private final static String LOW_PRIOR_QUEUE = "filinha"
-    private final static String HIGH_PRIOR_QUEUE = "filhona"
+    private final static String LOW_PRIOR_QUEUE = "filinha";
+    private final static String HIGH_PRIOR_QUEUE = "filhona";
 
-    public static void main(String[] argv) throws Exception {
-        String numberOfMsg = args[0];
+    public static void main(String[] args) throws Exception {
+        int numberOfMsg = Integer.valueOf(args[0]);
+        Random rand = new Random();
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
