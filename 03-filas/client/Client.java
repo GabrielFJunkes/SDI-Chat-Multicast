@@ -17,9 +17,10 @@ public class Client {
         factory.setHost("localhost");
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
+        Channel channel2 = connection.createChannel();
 
         channel.queueDeclare(LOW_PRIOR_QUEUE, false, false, false, null);
-        channel.queueDeclare(HIGH_PRIOR_QUEUE, false, false, false, null);
+        channel2.queueDeclare(HIGH_PRIOR_QUEUE, false, false, false, null);
 
         for (int i = 0; i < numberOfMsg; i++) {
 
