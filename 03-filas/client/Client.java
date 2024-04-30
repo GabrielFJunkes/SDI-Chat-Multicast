@@ -30,7 +30,7 @@ public class Client {
                 channel.basicPublish("", LOW_PRIOR_QUEUE, null, newMessage);
             }
             else {
-                channel.basicPublish("", HIGH_PRIOR_QUEUE, null, newMessage);
+                channel2.basicPublish("", HIGH_PRIOR_QUEUE, null, newMessage);
             }
         }
     }
