@@ -3,6 +3,7 @@ package server;
 import java.io.IOException;
 
 import utils.Message;
+import com.rabbitmq.client.*;
 
 public class Server {
     private final static String LOW_PRIOR_QUEUE = "filinha";
