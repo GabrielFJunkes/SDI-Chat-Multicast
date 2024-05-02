@@ -27,10 +27,10 @@ public class Client {
             Message newMessage = new Message();
 
             if(rand.nextInt(2) == 0){
-                channel.basicPublish("", LOW_PRIOR_QUEUE, null, newMessage);
+                channel.basicPublish("", LOW_PRIOR_QUEUE, null, newMessage.toBytes());
             }
             else {
-                channel2.basicPublish("", HIGH_PRIOR_QUEUE, null, newMessage);
+                channel2.basicPublish("", HIGH_PRIOR_QUEUE, null, newMessage.toBytes());
             }
         }
     }

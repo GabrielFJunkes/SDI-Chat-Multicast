@@ -1,5 +1,8 @@
 package utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Random;
 
@@ -28,5 +31,13 @@ public class Message implements Serializable{
 
     public int getTime() {
         return time;
-    }    
+    }
+    
+    public byte[] toBytes() throws IOException {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                ObjectOutputStream oos = new ObjectOutputStream(bos)) {
+            oos.writeObject(this);
+            return bos.toByteArray();
+        }
+    }
 }
