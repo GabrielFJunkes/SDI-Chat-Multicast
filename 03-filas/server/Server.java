@@ -46,8 +46,12 @@ public class Server {
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
                     byte[] body)
                     throws IOException {
-                Message message = Message.fromBytes(body) ;
-                System.out.println(" [x] Received '" + message + "'");
+                try{
+                    Message message = Message.fromBytes(body) ;
+                    System.out.println(" [x] Received '" + message + "'");
+                }catch(IOException | ClassNotFoundException e){
+
+                }
             }
         };
         channel.basicConsume(LOW_PRIOR_QUEUE, true, consumer);
