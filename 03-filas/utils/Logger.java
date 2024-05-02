@@ -9,9 +9,11 @@ import java.util.Vector;
 
 public class Logger {
     private Vector<Log> logs;
+    private String name;
 
-    public Logger() {
+    public Logger(String name) {
         this.logs = new Vector<Log>();
+        this.name = name;
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             public void run() {
                 saveToFile();
@@ -32,7 +34,7 @@ public class Logger {
     public void saveToFile() {
         Random rand = new Random();
         try (Writer writer = new BufferedWriter(
-                new OutputStreamWriter(new FileOutputStream("logs/log-" + rand.nextLong() + ".txt"), "utf-8"))) {
+                new OutputStreamWriter(new FileOutputStream("logs/log-" + this.name + ".txt"), "utf-8"))) {
             for (Log log : logs) {
                 writer.write(log.toString());
             }

@@ -1,8 +1,9 @@
 package utils;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class Message {
+public class Message implements Serializable{
     private final int time;
     private final int resource;
 
