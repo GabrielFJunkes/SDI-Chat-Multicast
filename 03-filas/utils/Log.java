@@ -16,9 +16,7 @@ public class Log {
 
     public String toString() {
         return 
-            this.message.getTime() 
-            + " " + 
-            this.message.getResource()
+            this.message
             + " " + 
             this.receivedTime
             + " " + 

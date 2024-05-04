@@ -35,6 +35,10 @@ public class Message implements Serializable {
         return time;
     }
 
+    public String toString() {
+        return this.time + " " + this.resource;
+    }
+
     public byte[] toBytes() throws IOException {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 ObjectOutputStream oos = new ObjectOutputStream(bos)) {

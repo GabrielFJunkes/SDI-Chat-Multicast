@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.Writer;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
-import java.util.Random;
 import java.util.Vector;
 
 public class Logger {
@@ -31,8 +30,17 @@ public class Logger {
         return logs.size();
     }
 
+    /**
+     * @param index
+     */
+    public void startMessage(int index) {
+        if (index < 0 || index >= this.logs.size()) {
+            return;
+        }
+        this.logs.get(index).startMessage();
+    }
+
     public void saveToFile() {
-        Random rand = new Random();
         try (Writer writer = new BufferedWriter(
                 new OutputStreamWriter(new FileOutputStream("logs/log-" + this.name + ".txt"), "utf-8"))) {
             for (Log log : logs) {
