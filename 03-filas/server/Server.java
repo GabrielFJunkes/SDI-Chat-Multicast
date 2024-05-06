@@ -12,7 +12,6 @@ import utils.Resource;
 
 import com.rabbitmq.client.*;
 import utils.Common;
-import java.util.ArrayList;//vetor
 
 public class Server extends Thread{
     private Logger logger;
@@ -46,14 +45,22 @@ public class Server extends Thread{
 
     public void run() {
         while (true) {
-            System.out.println("rodando ");
             this.freeResources();
             try {
+                GetResponse respostaHigh = highChannel.basicGet(Common.HIGH_PRIOR_QUEUE, false);
+                GetResponse respostaLow = lowChannel.basicGet(Common.LOW_PRIOR_QUEUE, false);
+                if(respostaHigh!=null){
+                    this.runHighQueue();
+                }else if(respostaLow!=null){
+                    this.runLowQueue();
+                }                
+                /*
                 if (this.highChannel.consumerCount(Common.HIGH_PRIOR_QUEUE) > 0) {
                     this.runHighQueue();
                 } else if (this.lowChannel.consumerCount(Common.LOW_PRIOR_QUEUE) > 0) {
                     this.runLowQueue();
                 }
+                */
             } catch (IOException e) {
                 System.out.println("Error reading queues.");
             }
@@ -107,7 +114,7 @@ public class Server extends Thread{
                 try {
                     Message message = Message.fromBytes(body);
                     Server.this.addMessage(message);
-                    System.out.println(message);
+                    System.out.println("High Queue. Message: " + message);
                 } catch (IOException | ClassNotFoundException e) {
                 }
             }
@@ -124,7 +131,7 @@ public class Server extends Thread{
                 try {
                     Message message = Message.fromBytes(body);
                     Server.this.addMessage(message);
-                    System.out.println(message);
+                    System.out.println("Low Queue. Message: " + message);
                 } catch (IOException | ClassNotFoundException e) {
                 }
             }
