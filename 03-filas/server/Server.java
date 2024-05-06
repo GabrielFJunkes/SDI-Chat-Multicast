@@ -95,7 +95,7 @@ public class Server extends Thread{
                 try {
                     Message message = Message.fromBytes(body);
                     Server.this.addMessage(message);
-                    this.highChannel.basicConsume(Common.HIGH_PRIOR_QUEUE, true, consumer);
+                    Server.this.highChannel.basicConsume(Common.HIGH_PRIOR_QUEUE, true, consumer);
                 } catch (IOException | ClassNotFoundException e) {
                 }
             }
@@ -111,7 +111,7 @@ public class Server extends Thread{
                 try {
                     Message message = Message.fromBytes(body);
                     Server.this.addMessage(message);
-                    this.lowChannel.basicConsume(Common.LOW_PRIOR_QUEUE, true, consumer);
+                    Server.this.lowChannel.basicConsume(Common.LOW_PRIOR_QUEUE, true, consumer);
                 } catch (IOException | ClassNotFoundException e) {
                 }
             }
