@@ -47,10 +47,14 @@ public class Server extends Thread{
     public void run() {
         while (true) {
             this.freeResources();
-            if (this.highChannel.consumerCount(Common.HIGH_PRIOR_QUEUE) > 0) {
-                this.runHighQueue();
-            } else if (this.lowChannel.consumerCount(Common.LOW_PRIOR_QUEUE) > 0) {
-                this.runLowQueue();
+            try{
+                if (this.highChannel.consumerCount(Common.HIGH_PRIOR_QUEUE) > 0) {
+                    this.runHighQueue();
+                } else if (this.lowChannel.consumerCount(Common.LOW_PRIOR_QUEUE) > 0) {
+                    this.runLowQueue();
+                }
+            }catch(IOException e){
+                System.out.println("Error reading queues.");
             }
         }
     }
@@ -86,7 +90,7 @@ public class Server extends Thread{
         }
     }
 
-    private void runHighQueue() {
+    private void runHighQueue() throws IOException {
         Consumer consumer = new DefaultConsumer(this.highChannel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
@@ -95,14 +99,15 @@ public class Server extends Thread{
                 try {
                     Message message = Message.fromBytes(body);
                     Server.this.addMessage(message);
-                    Server.this.highChannel.basicConsume(Common.HIGH_PRIOR_QUEUE, true, consumer);
+                    
                 } catch (IOException | ClassNotFoundException e) {
                 }
             }
         };
+        this.highChannel.basicConsume(Common.HIGH_PRIOR_QUEUE, true, consumer);
     }
 
-    private void runLowQueue() {
+    private void runLowQueue() throws IOException {
         Consumer consumer = new DefaultConsumer(this.highChannel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
@@ -111,10 +116,10 @@ public class Server extends Thread{
                 try {
                     Message message = Message.fromBytes(body);
                     Server.this.addMessage(message);
-                    Server.this.lowChannel.basicConsume(Common.LOW_PRIOR_QUEUE, true, consumer);
                 } catch (IOException | ClassNotFoundException e) {
                 }
             }
         };
+        this.lowChannel.basicConsume(Common.LOW_PRIOR_QUEUE, true, consumer);
     }
 }
