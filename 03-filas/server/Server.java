@@ -74,7 +74,7 @@ public class Server extends Thread{
         }
     }
 
-    private void addMessage(Message message) {
+    public void addMessage(Message message) {
         int msgIndex = this.logger.addMessage(message);
         while (true) {
             if (this.executeMessage(message)) {
