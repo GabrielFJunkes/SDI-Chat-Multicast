@@ -46,6 +46,7 @@ public class Server extends Thread{
 
     public void run() {
         while (true) {
+            System.out.println("rodando ");
             this.freeResources();
             try {
                 if (this.highChannel.consumerCount(Common.HIGH_PRIOR_QUEUE) > 0) {
