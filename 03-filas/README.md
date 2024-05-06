@@ -7,7 +7,7 @@ Assumindo ambiente Linux, com rabbitmq client em uma variável de ambiente $CP.
 
 Digite `make` para compilar o projeto
 
-`java -cp $CP server.Server` para rodar server.
+`java -cp $CP server.RunServer {num}` para rodar server, com {num} sendo o número de servers que deseja criar.
 
 `java -cp $CP client.Client {num}` para rodar o cliente, com {num} sendo o número de mensagens que deseja criar.
 

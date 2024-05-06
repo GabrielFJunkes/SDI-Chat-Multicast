@@ -12,6 +12,7 @@ JFLAGS = -g -cp $(CP)
 CLASSES = \
 	client/Client.java\
 	server/Server.java\
+	server/RunServer.java\
 	utils/Logger.java\
 
 default: classes
@@ -20,7 +21,7 @@ default: classes
 	@echo "Para executar, copie no terminal: "
 	@echo "java -cp $(CP) client/Client"
 	@echo " "
-	@echo "java -cp $(CP) server/Server"
+	@echo "java -cp $(CP) server/RunServer"
 	@echo "############### #################### ###############"
 
 classes: $(CLASSES:.java=.class)
