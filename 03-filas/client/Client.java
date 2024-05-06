@@ -1,13 +1,12 @@
 package client;
 import utils.Message;
 import java.util.Random;
+import utils.Common;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 public class Client {
-    private final static String LOW_PRIOR_QUEUE = "filinha";
-    private final static String HIGH_PRIOR_QUEUE = "filhona";
 
     public static void main(String[] args) throws Exception {
         int numberOfMsg = Integer.valueOf(args[0]);
@@ -19,8 +18,8 @@ public class Client {
         Channel channel = connection.createChannel();
         Channel channel2 = connection.createChannel();
 
-        channel.queueDeclare(LOW_PRIOR_QUEUE, false, false, false, null);
-        channel2.queueDeclare(HIGH_PRIOR_QUEUE, false, false, false, null);
+        channel.queueDeclare(Common.LOW_PRIOR_QUEUE, false, false, false, null);
+        channel2.queueDeclare(Common.HIGH_PRIOR_QUEUE, false, false, false, null);
 
         for (int i = 0; i < numberOfMsg; i++) {
 
