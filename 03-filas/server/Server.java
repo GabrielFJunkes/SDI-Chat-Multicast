@@ -4,6 +4,7 @@ import java.util.concurrent.TimeoutException;
 
 import utils.Logger;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Vector;
 
@@ -73,14 +74,14 @@ public class Server extends Thread{
 
     private void freeResources() {
         long currentTime = System.currentTimeMillis();
-        Vector<Resource> toRemove = new Vector<Resource>();
-        for (Resource res : this.resources) {
+        Iterator<Resource> iterator = this.resources.iterator();
+        while (iterator.hasNext()) {
+            Resource res = iterator.next();
             if (currentTime >= res.getTime()) {
-                toRemove.add(res);
                 this.recursos_usados -= res.getResource();
+                iterator.remove();
             }
         }
-        this.resources.removeAll(toRemove);
     }
 
     private boolean executeMessage(Message message) {
