@@ -106,7 +106,7 @@ public class Server extends Thread{
                 try {
                     Message message = Message.fromBytes(body);
                     Server.this.addMessage(message);
-                    
+                    System.out.println(message);
                 } catch (IOException | ClassNotFoundException e) {
                 }
             }
@@ -123,6 +123,7 @@ public class Server extends Thread{
                 try {
                     Message message = Message.fromBytes(body);
                     Server.this.addMessage(message);
+                    System.out.println(message);
                 } catch (IOException | ClassNotFoundException e) {
                 }
             }

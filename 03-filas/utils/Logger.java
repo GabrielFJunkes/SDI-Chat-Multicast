@@ -40,6 +40,7 @@ public class Logger {
                 new OutputStreamWriter(new FileOutputStream("logs/log-" + this.name + ".txt"), "utf-8"))) {
             for (Log log : logs) {
                 writer.write(log.toString());
+                System.out.println(log.toString());
             }
         } catch (Exception e) {
             for (Log log : logs) {
