@@ -89,6 +89,9 @@ public class Server extends Thread{
         while (true) {
             if (this.executeMessage(message)) {
                 this.logger.startMessage(msgIndex);
+                long time = System.currentTimeMillis();
+                Resource res = new Resource(time, message.getResource());
+                this.resources.add(res);
                 break;
             }
         }

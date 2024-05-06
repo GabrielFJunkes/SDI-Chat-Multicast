@@ -1,10 +1,10 @@
 package utils;
 
 public class Resource {
-    private final int time;
+    private final long time;
     private final int resource;
     
-    public Resource(int time, int resource) throws Error {
+    public Resource(long time, int resource) throws Error {
         this.time = time;
         this.resource = resource;
     }
@@ -13,7 +13,7 @@ public class Resource {
         return resource;
     }
 
-    public int getTime() {
+    public long getTime() {
         return time;
     }
 }
