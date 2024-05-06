@@ -13,11 +13,6 @@ public class Logger {
     public Logger(String name) {
         this.logs = new Vector<Log>();
         this.name = name;
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            public void run() {
-                saveToFile();
-            }
-        }, "Shutdown-thread"));
     }
 
     /**

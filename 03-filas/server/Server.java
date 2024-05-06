@@ -47,16 +47,20 @@ public class Server extends Thread{
     public void run() {
         while (true) {
             this.freeResources();
-            try{
+            try {
                 if (this.highChannel.consumerCount(Common.HIGH_PRIOR_QUEUE) > 0) {
                     this.runHighQueue();
                 } else if (this.lowChannel.consumerCount(Common.LOW_PRIOR_QUEUE) > 0) {
                     this.runLowQueue();
                 }
-            }catch(IOException e){
+            } catch (IOException e) {
                 System.out.println("Error reading queues.");
             }
         }
+    }
+    
+    private void close() {
+        this.logger.saveToFile();
     }
 
     private void freeResources() {
