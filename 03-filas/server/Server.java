@@ -108,7 +108,7 @@ public class Server extends Thread{
                     throws IOException {
                 try {
                     Message message = Message.fromBytes(body);
-                    this.addMessage(message);
+                    Server.this.addMessage(message);
                 } catch (IOException | ClassNotFoundException e) {
                 }
             }
