@@ -22,7 +22,7 @@ public class Server extends Thread{
     private Channel highChannel;
     private Channel lowChannel;
 
-    public Server(String name) {
+    public Server(String name) throws IOException {
         Random rand = new Random();
         if (rand.nextInt(2) == 0) {
             this.recursos_totais = 200;
@@ -100,7 +100,7 @@ public class Server extends Thread{
         this.highChannel.basicConsume(Common.HIGH_PRIOR_QUEUE, true, consumer);
     }
 
-    private boolean runLowQueue() {
+    private void runLowQueue() {
         Consumer consumer = new DefaultConsumer(this.highChannel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,

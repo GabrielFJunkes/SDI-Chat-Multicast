@@ -9,7 +9,6 @@ public class RunServer {
 
         for (int i = 0; i < numberOfServer; i++) {
             new Server(String.valueOf(i)).start();
-
         }
         
     }
