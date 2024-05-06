@@ -39,15 +39,15 @@ public class Server extends Thread{
         this.highChannel.queueDeclare(Common.HIGH_PRIOR_QUEUE, false, false, false, null);
         this.lowChannel.queueDeclare(Common.LOW_PRIOR_QUEUE, false, false, false, null);
 
-        System.out.println(" Capacidade do server = " + getRecursosTotais() + ". To exit press CTRL+C");
+        System.out.println(" Capacidade do server = " + this.recursos_totais + ". To exit press CTRL+C");
     }
 
     public void run() {
         while (true) {
             this.freeResources();
-            if (this.consumerCount(Common.HIGH_PRIOR_QUEUE) > 0) {
+            if (this.highChannel.consumerCount(Common.HIGH_PRIOR_QUEUE) > 0) {
                 this.runHighQueue();
-            } else if (this.consumerCount(Common.LOW_PRIOR_QUEUE) > 0) {
+            } else if (this.lowChannel.consumerCount(Common.LOW_PRIOR_QUEUE) > 0) {
                 this.runLowQueue();
             }
         }
