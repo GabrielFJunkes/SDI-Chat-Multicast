@@ -1,5 +1,7 @@
 package server;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
 import utils.Logger;
 import java.io.IOException;
 import java.util.Random;
@@ -22,7 +24,7 @@ public class Server extends Thread{
     private Channel highChannel;
     private Channel lowChannel;
 
-    public Server(String name) throws IOException {
+    public Server(String name) throws IOException, TimeoutException {
         Random rand = new Random();
         if (rand.nextInt(2) == 0) {
             this.recursos_totais = 200;
@@ -93,11 +95,11 @@ public class Server extends Thread{
                 try {
                     Message message = Message.fromBytes(body);
                     Server.this.addMessage(message);
+                    this.highChannel.basicConsume(Common.HIGH_PRIOR_QUEUE, true, consumer);
                 } catch (IOException | ClassNotFoundException e) {
                 }
             }
         };
-        this.highChannel.basicConsume(Common.HIGH_PRIOR_QUEUE, true, consumer);
     }
 
     private void runLowQueue() {
@@ -109,10 +111,10 @@ public class Server extends Thread{
                 try {
                     Message message = Message.fromBytes(body);
                     Server.this.addMessage(message);
+                    this.lowChannel.basicConsume(Common.LOW_PRIOR_QUEUE, true, consumer);
                 } catch (IOException | ClassNotFoundException e) {
                 }
             }
         };
-        this.lowChannel.basicConsume(Common.LOW_PRIOR_QUEUE, true, consumer);
     }
 }
