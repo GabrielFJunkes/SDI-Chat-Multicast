@@ -74,12 +74,11 @@ public class Server extends Thread{
 
     private void freeResources() {
         long currentTime = System.currentTimeMillis();
-        Iterator<Resource> iterator = this.resources.iterator();
-        while (iterator.hasNext()) {
-            Resource res = iterator.next();
+        for (int i = 0; i < this.resources.size(); i++) {
+            Resource res = this.resources.get(i);
             if (currentTime >= res.getTime()) {
                 this.recursos_usados -= res.getResource();
-                iterator.remove();
+                this.resources.remove(res);
             }
         }
     }
