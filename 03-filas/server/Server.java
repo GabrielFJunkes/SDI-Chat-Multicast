@@ -1,4 +1,5 @@
 package server;
+
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -14,7 +15,7 @@ import utils.Resource;
 import com.rabbitmq.client.*;
 import utils.Common;
 
-public class Server extends Thread{
+public class Server extends Thread {
     private Logger logger;
     private Vector<Resource> resources = new Vector<>();
 
@@ -50,25 +51,26 @@ public class Server extends Thread{
             try {
                 GetResponse respostaHigh = highChannel.basicGet(Common.HIGH_PRIOR_QUEUE, false);
                 GetResponse respostaLow = lowChannel.basicGet(Common.LOW_PRIOR_QUEUE, false);
-                if(respostaHigh!=null){
+                if (respostaHigh != null) {
                     this.runHighQueue();
-                }else if(respostaLow!=null){
-                    this.runLowQueue();
-                }                
-                /*
-                if (this.highChannel.consumerCount(Common.HIGH_PRIOR_QUEUE) > 0) {
-                    this.runHighQueue();
-                } else if (this.lowChannel.consumerCount(Common.LOW_PRIOR_QUEUE) > 0) {
+                } else if (respostaLow != null) {
                     this.runLowQueue();
                 }
-                */
+                /*
+                 * if (this.highChannel.consumerCount(Common.HIGH_PRIOR_QUEUE) > 0) {
+                 * this.runHighQueue();
+                 * } else if (this.lowChannel.consumerCount(Common.LOW_PRIOR_QUEUE) > 0) {
+                 * this.runLowQueue();
+                 * }
+                 */
             } catch (IOException e) {
                 System.out.println("Error reading queues.");
             }
         }
     }
-    
-    private void close() {
+
+    public void close() {
+        System.out.println("Close.");
         this.logger.saveToFile();
     }
 
