@@ -22,6 +22,7 @@ public class Log {
             + " " + 
             this.startedTime
             + " " + 
-            (this.startedTime + this.message.getTime());
+            (this.startedTime + this.message.getTime())
+            + "\n";
     }
 }
