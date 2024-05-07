@@ -35,6 +35,10 @@ public class Message implements Serializable {
         return time;
     }
 
+    public int getTimeInSeconds() {
+        return time * 1000;
+    }
+
     public String toString() {
         return this.time + " " + this.resource;
     }

@@ -15,14 +15,13 @@ public class Log {
     }
 
     public String toString() {
-        return 
-            this.message
-            + " " + 
-            this.receivedTime
-            + " " + 
-            this.startedTime
-            + " " + 
-            (this.startedTime + this.message.getTime())
-            + "\n";
+        return this.message
+                + " " +
+                this.receivedTime
+                + " " +
+                this.startedTime
+                + " " +
+                (this.startedTime + this.message.getTime())
+                + "\n";
     }
 }

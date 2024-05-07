@@ -47,14 +47,15 @@ public class Server extends Thread {
 
     public void run() {
         while (true) {
-            this.freeResources();
             try {
                 GetResponse respostaHigh = highChannel.basicGet(Common.HIGH_PRIOR_QUEUE, false);
-                GetResponse respostaLow = lowChannel.basicGet(Common.LOW_PRIOR_QUEUE, false);
                 if (respostaHigh != null) {
                     this.runHighQueue();
-                } else if (respostaLow != null) {
-                    this.runLowQueue();
+                } else {
+                    GetResponse respostaLow = lowChannel.basicGet(Common.LOW_PRIOR_QUEUE, false);
+                    if (respostaLow != null) {
+                        this.runLowQueue();
+                    }
                 }
                 /*
                  * if (this.highChannel.consumerCount(Common.HIGH_PRIOR_QUEUE) > 0) {
@@ -66,27 +67,31 @@ public class Server extends Thread {
             } catch (IOException e) {
                 System.out.println("Error reading queues.");
             }
+            this.freeResources();
         }
     }
 
     public void close() {
-        System.out.println("Close.");
         this.logger.saveToFile();
     }
 
     private void freeResources() {
         long currentTime = System.currentTimeMillis();
-        for (int i = 0; i < this.resources.size(); i++) {
-            Resource res = this.resources.get(i);
-            if (currentTime >= res.getTime()) {
-                this.recursos_usados -= res.getResource();
-                this.resources.remove(res);
+        synchronized (resources) {
+            Iterator<Resource> iterator = this.resources.iterator();
+            while (iterator.hasNext()) {
+                Resource res = iterator.next();
+                if (currentTime > res.getTime()) {
+                    this.recursos_usados -= res.getResource();
+                    System.out.println("Rem " + res + " recurso usado: " + this.recursos_usados);
+                    iterator.remove(); // Safely remove the resource
+                }
             }
         }
     }
 
     private boolean executeMessage(Message message) {
-        if (this.recursos_totais - (this.recursos_usados + message.getResource()) > 0) {
+        if (this.recursos_totais >= (this.recursos_usados + message.getResource())) {
             this.recursos_usados += message.getResource();
             return true;
         } else {
@@ -100,9 +105,12 @@ public class Server extends Thread {
             if (this.executeMessage(message)) {
                 this.logger.startMessage(msgIndex);
                 long time = System.currentTimeMillis();
-                Resource res = new Resource(time, message.getResource());
+                Resource res = new Resource(time + message.getTimeInSeconds(), message.getResource());
                 this.resources.add(res);
+                System.out.println("Add " + res + " recurso usado: " + this.recursos_usados);
                 break;
+            } else {
+                this.freeResources();
             }
         }
     }
@@ -115,9 +123,11 @@ public class Server extends Thread {
                     throws IOException {
                 try {
                     Message message = Message.fromBytes(body);
-                    Server.this.addMessage(message);
                     System.out.println("High Queue. Message: " + message);
+                    Server.this.addMessage(message);
+                    System.out.println("High Adicionou");
                 } catch (IOException | ClassNotFoundException e) {
+                    System.out.println(e);
                 }
             }
         };
@@ -125,16 +135,18 @@ public class Server extends Thread {
     }
 
     private void runLowQueue() throws IOException {
-        Consumer consumer = new DefaultConsumer(this.highChannel) {
+        Consumer consumer = new DefaultConsumer(this.lowChannel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
                     byte[] body)
                     throws IOException {
                 try {
                     Message message = Message.fromBytes(body);
-                    Server.this.addMessage(message);
                     System.out.println("Low Queue. Message: " + message);
+                    Server.this.addMessage(message);
+                    System.out.println("Low Adicionou");
                 } catch (IOException | ClassNotFoundException e) {
+                    System.out.println(e);
                 }
             }
         };

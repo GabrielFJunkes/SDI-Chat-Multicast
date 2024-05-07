@@ -21,8 +21,8 @@ public class Logger {
      */
     public int addMessage(Message message) {
         Log log = new Log(message);
-        logs.add(log);
-        return logs.size();
+        this.logs.add(log);
+        return this.logs.size() - 1;
     }
 
     /**
@@ -32,6 +32,7 @@ public class Logger {
         if (index < 0 || index >= this.logs.size()) {
             return;
         }
+
         this.logs.get(index).startMessage();
     }
 
@@ -40,7 +41,6 @@ public class Logger {
                 new OutputStreamWriter(new FileOutputStream("logs/log-" + this.name + ".txt"), "utf-8"))) {
             for (Log log : logs) {
                 writer.write(log.toString());
-                System.out.println(log.toString());
             }
         } catch (Exception e) {
             for (Log log : logs) {
